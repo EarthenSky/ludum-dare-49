@@ -27,6 +27,11 @@ namespace ludum_dare_49
             { "Ground3", new Rectangle(16 * 2, 16 * 1, 16, 16) },
             { "Ground4", new Rectangle(16 * 0, 16 * 3, 16, 16) },
             { "Wall1", new Rectangle(16 * 2, 16 * 0, 16, 16) },
+            { "Wall2", new Rectangle(16 * 5, 16 * 0, 16, 16) },
+            { "Left", new Rectangle(16 * 0, 16 * 2, 16, 16) },
+            { "Right", new Rectangle(16 * 1, 16 * 2, 16, 16) },
+            { "Up", new Rectangle(16 * 2, 16 * 2, 16, 16) },
+            { "Down", new Rectangle(16 * 3, 16 * 2, 16, 16) },
         };
 
         public Renderer(int scaling) {

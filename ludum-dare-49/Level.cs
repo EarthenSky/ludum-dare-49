@@ -23,18 +23,32 @@ namespace ludum_dare_49
 
             for (int y = 0; y < height; y++) {
                 for (int x = 0; x < width; x++) {
-                    int choice = rand.Next(4);
-                    if (choice == 0) {
+                    int choice = rand.Next(8);
+                    if (choice <= 4) {
                         terrain.Add("Ground1"); // TODO: make sure these are string references
-                    } else if (choice == 1) { 
+                    } else if (choice == 5) { 
                         terrain.Add("Ground2");
-                    } else if (choice == 2) { 
+                    } else if (choice == 6) { 
                         terrain.Add("Ground3");
-                    } else if (choice == 4) { 
+                    } else if (choice == 7) { 
                         terrain.Add("Ground4");
                     }
                 }
             }
+
+            for (int x = 0; x < width; x++) {
+                terrain[x] = "Wall1";
+                terrain[x + (height-1) * width] = "Wall1";
+            }
+
+            terrain[width - 3 + (height - 2) * width] = "Wall1";
+            terrain[width - 2 + (height - 2) * width] = "Up";
+            terrain[width - 1 + (height - 2) * width] = "Wall1";
+            
+            terrain[width - 3 + (height-1) * width] = "Left";
+            terrain[width - 2 + (height-1) * width] = "Down";
+            terrain[width - 1 + (height-1) * width] = "Right";
+
         }
 
         void Update() { 
