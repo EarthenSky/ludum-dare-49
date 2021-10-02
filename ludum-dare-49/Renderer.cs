@@ -23,7 +23,10 @@ namespace ludum_dare_49
             { "Logo", new Rectangle(0, 0, 16, 16) },
             { "Player1", new Rectangle(16 * 3, 16 * 1, 16, 16) },
             { "Ground1", new Rectangle(16 * 0, 16 * 1, 16, 16) },
-            { "Ground2", new Rectangle(16 * 0, 16 * 2, 16, 16) },
+            { "Ground2", new Rectangle(16 * 1, 16 * 1, 16, 16) },
+            { "Ground3", new Rectangle(16 * 2, 16 * 1, 16, 16) },
+            { "Ground4", new Rectangle(16 * 0, 16 * 3, 16, 16) },
+            { "Wall1", new Rectangle(16 * 2, 16 * 0, 16, 16) },
         };
 
         public Renderer(int scaling) {
