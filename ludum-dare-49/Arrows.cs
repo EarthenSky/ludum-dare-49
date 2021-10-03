@@ -31,10 +31,13 @@ namespace ludum_dare_49
 
         public Arrows() 
         {
-            upPos = new Vector2(16 * (width - 2), 16 * (height - 2) * width);
-            leftPos = new Vector2(16 * (width - 3), 16 * (height - 1) * width);
-            downPos = new Vector2(16 * (width - 2), 16 * (height - 1) * width);
-            rightPos = new Vector2(16 * (width - 1), 16 * (height - 1) * width);
+            var width = Program.level.width;
+            var height = Program.level.height;
+
+            upPos = new Vector2(16 * (width - 2), 16 * (height - 2));
+            leftPos = new Vector2(16 * (width - 3), 16 * (height - 1));
+            downPos = new Vector2(16 * (width - 2), 16 * (height - 1));
+            rightPos = new Vector2(16 * (width - 1), 16 * (height - 1));
 
             upShake = new Vector2(0, 0);
             leftShake = new Vector2(0, 0);
@@ -68,16 +71,24 @@ namespace ludum_dare_49
         public bool ConfirmKeyPressed(string key) {
             if (key == "Up") {
                 upFilled++;
-                return upFilled >= 5;
+                bool dash = upFilled >= 5;
+                if (dash) upFilled = 0;
+                return dash;
             } else if (key == "Left") {
                 leftFilled++;
-                return leftFilled >= 5;
+                bool dash = leftFilled >= 5;
+                if (dash) leftFilled = 0;
+                return dash;
             } else if (key == "Down") {
                 downFilled++;
-                return downFilled >= 5;
+                bool dash = downFilled >= 5;
+                if (dash) downFilled = 0;
+                return dash;
             } else if (key == "Right") {
                 rightFilled++;
-                return rightFilled >= 5;
+                bool dash = rightFilled >= 5;
+                if (dash) rightFilled = 0;
+                return dash;
             } else {
                 Console.WriteLine("What have you done?!");
                 return false;

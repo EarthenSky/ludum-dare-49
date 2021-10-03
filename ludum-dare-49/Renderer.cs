@@ -33,11 +33,11 @@ namespace ludum_dare_49
             { "Right", new Rectangle(16 * 1, 16 * 2, 16, 16) },
             { "Up", new Rectangle(16 * 2, 16 * 2, 16, 16) },
             { "Down", new Rectangle(16 * 3, 16 * 2, 16, 16) },
-            { "Fill0", new Rectangle(16 * 4, 16 * 3, 16, 16) },
-            { "Fill1", new Rectangle(16 * 4, 16 * 4, 16, 16) },
-            { "Fill2", new Rectangle(16 * 4, 16 * 5, 16, 16) },
-            { "Fill3", new Rectangle(16 * 4, 16 * 6, 16, 16) },
-            { "Fill4", new Rectangle(16 * 4, 16 * 7, 16, 16) },
+            { "Filled0", new Rectangle(16 * 4, 16 * 3, 16, 16) },
+            { "Filled1", new Rectangle(16 * 4, 16 * 4, 16, 16) },
+            { "Filled2", new Rectangle(16 * 4, 16 * 5, 16, 16) },
+            { "Filled3", new Rectangle(16 * 4, 16 * 6, 16, 16) },
+            { "Filled4", new Rectangle(16 * 4, 16 * 7, 16, 16) },
         };
 
         public Renderer(int scaling) {

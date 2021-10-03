@@ -46,47 +46,44 @@ namespace ludum_dare_49
 
             // Check if we should start a movement
             if (Raylib.IsKeyPressed(KeyboardKey.KEY_UP) && direction == "None") {
-                //pos += Vector2(16 * 0, 16 * 1);
                 direction = "Up";
                 stepFrame = 0;
                 Program.arrows.ConfirmKeyPressed(direction);
             } 
             else if (Raylib.IsKeyPressed(KeyboardKey.KEY_LEFT) && direction == "None") {
-                //pos += Vector2(16 * -1, 16 * 0);
                 direction = "Left";
                 stepFrame = 0;
                 Program.arrows.ConfirmKeyPressed(direction);
             } 
             else if (Raylib.IsKeyPressed(KeyboardKey.KEY_DOWN) && direction == "None") {
-                //pos += Vector2(16 * 0, 16 * -1);
                 direction = "Down";
                 stepFrame = 0;
                 Program.arrows.ConfirmKeyPressed(direction);
             } 
             else if (Raylib.IsKeyPressed(KeyboardKey.KEY_RIGHT) && direction == "None") {
-                //pos += Vector2(16 * 1, 16 * 0);
                 direction = "Right";
                 stepFrame = 0;
                 Program.arrows.ConfirmKeyPressed(direction);
             }
 
-            // This loop runs every 4 frames (assuming 60 fps)
+            // This loop runs every 1 frames (assuming 60 fps)
+            // TODO: use lerp instead
             stepAnimTime += dt;
-            if (stepAnimTime > 0.066666) {
-                stepAnimTime -= 0.066666;
+            if (stepAnimTime > 0.016666f) {
+                stepAnimTime -= 0.016666f;
 
                 // Do actual movement
                 if (direction == "Up") {
-                    pos += Vector2(16 * 0, 16 * 1) / 4;
+                    pos += new Vector2(16 * 0, 16 * -1) / 4;
                     stepFrame++;
                 } else if (direction == "Left") {
-                    pos += Vector2(16 * -1, 16 * 0) / 4;
+                    pos += new Vector2(16 * -1, 16 * 0) / 4;
                     stepFrame++;
                 } else if (direction == "Down") {
-                    pos += Vector2(16 * 0, 16 * -1) / 4;
+                    pos += new Vector2(16 * 0, 16 * 1) / 4;
                     stepFrame++;
                 } else if (direction == "Right") {
-                    pos += Vector2(16 * 1, 16 * 0) / 4;
+                    pos += new Vector2(16 * 1, 16 * 0) / 4;
                     stepFrame++;
                 }
 
