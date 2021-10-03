@@ -14,7 +14,7 @@ namespace ludum_dare_49
 
         public static Level level;
         public static Player player;
-        public static Arrows arrows ;
+        public static Arrows arrows;
 
         public static Random rand;
 
