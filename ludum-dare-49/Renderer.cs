@@ -59,7 +59,13 @@ namespace ludum_dare_49
                 TextureMap[pair.Key] = new Rectangle(val.x * scaling, val.y * scaling, val.width * scaling, val.height * scaling);
             }
         }
-        
+
+        public Texture2D LoadImage(string file) {
+            Image img = Raylib.LoadImage(file);
+            Raylib.ImageResizeNN(ref img, img.width * scaling, img.height * scaling);
+            return Raylib.LoadTextureFromImage(img);
+        }
+
         public void DrawImage(string imageName, Vector2 position) {
             var rect = TextureMap[imageName];
             Raylib.DrawTextureRec(atlas, rect, position * scaling, Color.WHITE);

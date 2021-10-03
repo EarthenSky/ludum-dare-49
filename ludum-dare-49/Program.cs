@@ -9,13 +9,35 @@ namespace ludum_dare_49
     {
         public static Renderer renderer = new Renderer(4);
 
+        public static Intro intro = new Intro();
+
         public static Level level = new Level();
         public static Player player = new Player();
         public static Arrows arrows = new Arrows();
 
         public static void Main()
         {
-            Start();
+            Raylib.InitWindow(640, 640, "Moss Moon");
+            Raylib.SetTargetFPS(60);
+
+            while (!intro.IsDone() && !Raylib.IsKeyPressed(KeyboardKey.KEY_ENTER) && !Raylib.IsKeyPressed(KeyboardKey.KEY_SPACE))
+            {
+                intro.Update(Raylib.GetFrameTime());
+
+                Raylib.BeginDrawing();
+                Raylib.ClearBackground(Color.DARKGRAY);
+
+                intro.Draw();
+
+                Raylib.EndDrawing();
+
+                if (Raylib.WindowShouldClose()) {
+                    Raylib.CloseWindow();
+                    return;
+                }
+            }
+
+            GameStart();
 
             while (!Raylib.WindowShouldClose())
             {
@@ -32,9 +54,8 @@ namespace ludum_dare_49
             Raylib.CloseWindow();
         }
 
-        private static void Start() {
-            Raylib.InitWindow(640, 640, "Moss Moon");
-            Raylib.SetTargetFPS(60);
+        private static void GameStart() {
+            
         }
 
         private static void Update(float dt) {
