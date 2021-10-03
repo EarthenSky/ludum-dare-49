@@ -14,6 +14,11 @@ namespace ludum_dare_49
     {
         const int FRAME_STEP_SIZE = 4;
         
+        public static Vector2 UP = new Vector2(16 * 0, 16 * -1);
+        public static Vector2 LEFT = new Vector2(16 * -1, 16 * 0);
+        public static Vector2 DOWN = new Vector2(16 * 0, 16 * 1);
+        public static Vector2 RIGHT = new Vector2(16 * 1, 16 * 0);
+
         public Vector2 pos = new Vector2(16 * 2, 16 * 2);
 
         private string current_frame = "Player1";
@@ -22,10 +27,52 @@ namespace ludum_dare_49
         private float stepAnimTime = 0f;
         private string direction = "None";
         private int stepFrame = 0;
+        private bool stopMovement = false;
+        private int dashSize = 1;
+
+        public int hp = 4;
 
         public Player() 
         {
 
+        }
+
+        public void PerformDash(Vector2 targetLocation) {
+            for (int i = 0; i < 3; i++) {
+                Vector2 currentLocation = Vector2.Zero;
+                var enemy = Program.level.GetEnemy(currentLocation);
+                if (enemy == null) continue;
+
+                enemy.RecieveAttack();
+            }
+        }
+
+        private void ProcessKey(string key, Vector2 transform) {
+            direction = key;
+            stepFrame = 0;
+
+            bool isDash = Program.arrows.ConfirmKeyPressed(direction);
+            if (isDash)
+            {
+                stopMovement = false;
+
+                if (!Program.level.CanStep(pos, transform)) {
+                    dashSize = 0;
+                    return;
+                } else if (!Program.level.CanStep(pos + transform, transform)) {
+                    dashSize = 1;
+                } else if (!Program.level.CanStep(pos + transform * 2, transform)) {
+                    dashSize = 2;
+                } else {
+                    dashSize = 3;
+                }
+                
+                PerformDash(pos + transform * dashSize);
+            }
+            else
+            {
+                stopMovement = !Program.level.CanStep(pos, transform); // technically we can replace stopMovement with dashSize.
+            }
         }
 
         public void Update(float dt) 
@@ -46,24 +93,16 @@ namespace ludum_dare_49
 
             // Check if we should start a movement
             if (Raylib.IsKeyPressed(KeyboardKey.KEY_UP) && direction == "None") {
-                direction = "Up";
-                stepFrame = 0;
-                Program.arrows.ConfirmKeyPressed(direction);
+                ProcessKey("Up", UP);
             } 
             else if (Raylib.IsKeyPressed(KeyboardKey.KEY_LEFT) && direction == "None") {
-                direction = "Left";
-                stepFrame = 0;
-                Program.arrows.ConfirmKeyPressed(direction);
+                ProcessKey("Left", LEFT);
             } 
             else if (Raylib.IsKeyPressed(KeyboardKey.KEY_DOWN) && direction == "None") {
-                direction = "Down";
-                stepFrame = 0;
-                Program.arrows.ConfirmKeyPressed(direction);
-            } 
+                ProcessKey("Down", DOWN);
+            }
             else if (Raylib.IsKeyPressed(KeyboardKey.KEY_RIGHT) && direction == "None") {
-                direction = "Right";
-                stepFrame = 0;
-                Program.arrows.ConfirmKeyPressed(direction);
+                ProcessKey("Right", RIGHT);
             }
 
             // This loop runs every 1 frames (assuming 60 fps)
@@ -74,22 +113,24 @@ namespace ludum_dare_49
 
                 // Do actual movement
                 if (direction == "Up") {
-                    pos += new Vector2(16 * 0, 16 * -1) / 4;
+                    if (!stopMovement) pos += UP * dashSize / 4;
                     stepFrame++;
                 } else if (direction == "Left") {
-                    pos += new Vector2(16 * -1, 16 * 0) / 4;
+                    if (!stopMovement) pos += LEFT * dashSize / 4;
                     stepFrame++;
                 } else if (direction == "Down") {
-                    pos += new Vector2(16 * 0, 16 * 1) / 4;
+                    if (!stopMovement) pos += DOWN * dashSize / 4;
                     stepFrame++;
                 } else if (direction == "Right") {
-                    pos += new Vector2(16 * 1, 16 * 0) / 4;
+                    if (!stopMovement) pos += RIGHT * dashSize / 4;
                     stepFrame++;
                 }
 
                 // check for end of action
                 if (direction != "None" && stepFrame >= FRAME_STEP_SIZE) {
                     direction = "None";
+                    stopMovement = false;
+                    dashSize = 1;
                 }
             }
             

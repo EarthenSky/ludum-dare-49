@@ -17,6 +17,8 @@ namespace ludum_dare_49
         public int downFilled = 0;
         public int rightFilled = 0;
 
+        public Vector2 hpPos;
+
         public Vector2 upPos;
         public Vector2 leftPos;
         public Vector2 downPos;
@@ -33,6 +35,8 @@ namespace ludum_dare_49
         {
             var width = Program.level.width;
             var height = Program.level.height;
+
+            hpPos = new Vector2(16 * (width - 4), 16 * (height - 2));
 
             upPos = new Vector2(16 * (width - 2), 16 * (height - 2));
             leftPos = new Vector2(16 * (width - 3), 16 * (height - 1));
@@ -97,6 +101,8 @@ namespace ludum_dare_49
 
         public void Draw()
         {
+            Program.renderer.DrawImage("Health" + Program.player.hp.ToString(), hpPos);
+
             // draw under
             Program.renderer.DrawImage("Filled" + upFilled.ToString(), upPos + upShake);
             Program.renderer.DrawImage("Filled" + leftFilled.ToString(), leftPos + leftShake);

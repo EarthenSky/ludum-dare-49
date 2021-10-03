@@ -38,17 +38,36 @@ namespace ludum_dare_49
 
             for (int x = 0; x < width; x++) {
                 terrain[x] = "Wall1";
-                terrain[x + (height-1) * width] = "Wall1";
+                terrain[x + (height-1) * width] = "Wall2";
             }
 
-            terrain[width - 3 + (height - 2) * width] = "Wall1";
-            //terrain[width - 2 + (height - 2) * width] = "Up";
-            terrain[width - 1 + (height - 2) * width] = "Wall1";
-            
-            //terrain[width - 3 + (height-1) * width] = "Left";
-            //terrain[width - 2 + (height-1) * width] = "Down";
-            //terrain[width - 1 + (height-1) * width] = "Right";
+            terrain[width - 4 + (height - 2) * width] = "Wall1";
+            terrain[width - 3 + (height - 2) * width] = "Wall2";
+            terrain[width - 2 + (height - 2) * width] = "WallInvisible";
+            terrain[width - 1 + (height - 2) * width] = "Wall2";
 
+            terrain[width - 4 + (height - 1) * width] = "Wall2";
+            terrain[width - 3 + (height-1) * width] = "WallInvisible";
+            terrain[width - 2 + (height-1) * width] = "WallInvisible";
+            terrain[width - 1 + (height-1) * width] = "WallInvisible";
+        }
+
+        public bool CanStep(Vector2 pos, Vector2 transform) {
+            // check for left & right walls
+            if ((pos.X/16 == 0 && transform.X/16 < 0) || 
+                (pos.X/16 == width - 1 && transform.X/16 > 0))
+                return false;
+            
+            // check for actual wall tiles.
+            int index = (int)(pos.X+transform.X)/16 + (int)(pos.Y+transform.Y)/16 * width;
+            if (index < terrain.Count && index >= 0)
+                return !terrain[index].StartsWith("Wall");
+            else
+                return false;
+        }
+
+        public IEnemy GetEnemy(Vector2 position) {
+            return null;
         }
 
         void Update() { 
