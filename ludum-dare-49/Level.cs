@@ -6,12 +6,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using Raylib_cs;
+
 namespace ludum_dare_49
 {
     // This class manages the enemies in the level & the ground + walls.
     class Level
     {
         // TODO: implement the little story blurb at the beginning
+
+        public float trueTime = 0;
+        public int time = 0;
 
         public int width = 640 / 4 / 16;
         public int height = 640 / 4 / 16;
@@ -70,10 +75,18 @@ namespace ludum_dare_49
             return null;
         }
 
-        void Update() { 
-        
+        public void Update(float dt) {
+            // Enemeis spawn at pre-defined times, but random locations.
+
+            trueTime += dt;
+            if (trueTime >= 1f) {
+                time += 1;
+                trueTime -= 1f;
+            }
         }
         
+        // game ends at 7:15am -> ~6-7 mins total
+
         public void Draw() {
             // TODO: add walls, but also create this as a single image, then load to the gpu.
             int i = 0;
@@ -83,6 +96,9 @@ namespace ludum_dare_49
                     i++;
                 }
             }
+
+            string timeStr = (1 + (time / 60)).ToString() + ":" + (time % 60 < 10 ? "0" : "") + (time % 60).ToString() + " AM";
+            Raylib.DrawText(timeStr, 16 * 4 * (6) + 4, 0, 16 * 4, Color.WHITE);
         }
     }
 }

@@ -38,6 +38,7 @@ namespace ludum_dare_49
         }
 
         private static void Update(float dt) {
+            level.Update(dt);
             player.Update(dt);
             arrows.Update(dt);
         }
