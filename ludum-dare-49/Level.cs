@@ -42,12 +42,12 @@ namespace ludum_dare_49
             }
 
             terrain[width - 3 + (height - 2) * width] = "Wall1";
-            terrain[width - 2 + (height - 2) * width] = "Up";
+            //terrain[width - 2 + (height - 2) * width] = "Up";
             terrain[width - 1 + (height - 2) * width] = "Wall1";
             
-            terrain[width - 3 + (height-1) * width] = "Left";
-            terrain[width - 2 + (height-1) * width] = "Down";
-            terrain[width - 1 + (height-1) * width] = "Right";
+            //terrain[width - 3 + (height-1) * width] = "Left";
+            //terrain[width - 2 + (height-1) * width] = "Down";
+            //terrain[width - 1 + (height-1) * width] = "Right";
 
         }
 

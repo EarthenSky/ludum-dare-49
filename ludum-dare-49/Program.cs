@@ -8,8 +8,10 @@ namespace ludum_dare_49
     static class Program
     {
         public static Renderer renderer = new Renderer(4);
-        public static Player player = new Player();
+
         public static Level level = new Level();
+        public static Player player = new Player();
+        public static Arrows arrows = new Arrows();
 
         public static void Main()
         {
@@ -37,11 +39,13 @@ namespace ludum_dare_49
 
         private static void Update(float dt) {
             player.Update(dt);
+            arrows.Update(dt);
         }
 
         private static void Draw() {
             level.Draw();
             player.Draw();
+            arrows.Draw();
             
             //Raylib.DrawText("Hello, world!", 12, 12, 20, Color.BLACK);
         }
