@@ -63,7 +63,7 @@ namespace ludum_dare_49
         }
 
         public bool GameComplete() {
-            return gameComplete && gameCompleteTimer > 1f;
+            return gameComplete && gameCompleteTimer > 0.5f;
         }
 
         public bool CanStep(Vector2 pos, Vector2 transform) {
@@ -102,6 +102,22 @@ namespace ludum_dare_49
             return null;
         }
 
+        public bool IsTargeted(Vector2 target, IEnemy ignore) {
+            foreach(var enemy in enemies) {
+                if (enemy == ignore) continue;
+                Vector2 enemyPos = enemy.GetTargetPosition();
+                //TODO: technically this rounding is not needed
+                int x = (int)Math.Round(enemyPos.X / 16f);
+                int y = (int)Math.Round(enemyPos.Y / 16f);
+
+                if (target.X / 16 == x && target.Y / 16 == y)
+                    return true;
+            }
+
+            // no enemy was found.
+            return false;
+        }
+
         // TODO: only spawn an enemy is there is fewer than 16 on screen. Slow down spawning after 8 are on screen.
         private void SpawnEnemy(string enemy) {
             while (true) {
@@ -112,7 +128,8 @@ namespace ludum_dare_49
                 // TODO: spawn enemy 2 away from the player & only at 2 away max from edges.
 
                 var index = x + y * width;
-                if (index > 0 && index < terrain.Count && !HasWall(loc) && GetEnemy(loc) == null) {
+                // at least 2 blocks away (true circle)
+                if (index > 0 && index < terrain.Count && !HasWall(loc) && GetEnemy(loc) == null && Vector2.Distance(Program.player.pos, loc) > 16 * 2) {
                     spawnQueue.Enqueue(new GnomeThing(loc)); // space has no wall or enemy, place enemy
                     return;
                 }

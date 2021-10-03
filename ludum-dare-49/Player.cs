@@ -22,6 +22,7 @@ namespace ludum_dare_49
         public Vector2 pos = new Vector2(16 * 2, 16 * 2);
 
         private string current_frame = "Player1";
+        private string alternate_frame = "Player1b";
         private float animTime = 0f;
 
         private float stepAnimTime = 0f;
@@ -29,6 +30,8 @@ namespace ludum_dare_49
         private int stepFrame = 0;
         private bool stopMovement = false;
         private int dashSize = 1;
+
+        public Color tint = Color.WHITE;
 
         public int hp = 4;
 
@@ -39,11 +42,14 @@ namespace ludum_dare_49
 
         public void TakeDamage() {
             hp -= 1;
-            // do red particles when taking damage
 
-            if (hp == 0) {
+            // do red particles when taking damage
+            tint = new Color(255, 255, 255, 0); // show red sprite behind
+
+            if (hp <= 0) {
                 Program.level.gameComplete = true;
                 Program.level.didWin = false;
+                hp = 0;
             }
         }
 
@@ -102,9 +108,14 @@ namespace ludum_dare_49
             animTime += dt;
             if (animTime > 0.25f) {
                 if (current_frame == "Player1")
+                {
                     current_frame = "Player2";
-                else
+                    alternate_frame = "Player2b";
+                }
+                else {
                     current_frame = "Player1";
+                    alternate_frame = "Player1b";
+                }
 
                 animTime -= 0.25f;
             }
@@ -130,7 +141,7 @@ namespace ludum_dare_49
             // This loop runs every 1 frames (assuming 60 fps)
             // TODO: use lerp instead
             stepAnimTime += dt;
-            if (stepAnimTime > 0.016666f) {
+            while (stepAnimTime > 0.016666f) {
                 stepAnimTime -= 0.016666f;
 
                 // Do actual movement
@@ -155,12 +166,17 @@ namespace ludum_dare_49
                     dashSize = 1;
                 }
             }
-            
+
+            tint = new Color(((int)tint.r * 50 + 255) / 51,
+                             ((int)tint.g * 50 + 255) / 51,
+                             ((int)tint.b * 50 + 255) / 51,
+                             ((int)tint.a * 20 + 255) / 21);
         }
 
         public void Draw()
         {
-            Program.renderer.DrawImage(current_frame, pos);
+            Program.renderer.DrawImage(alternate_frame, pos);
+            Program.renderer.DrawImage(current_frame, pos, tint);
         }
 
     }

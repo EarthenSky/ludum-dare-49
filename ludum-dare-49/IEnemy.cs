@@ -18,5 +18,6 @@ namespace ludum_dare_49
         void Draw();
 
         Vector2 GetPosition();
+        Vector2 GetTargetPosition();
     }
 }

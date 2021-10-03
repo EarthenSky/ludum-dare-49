@@ -21,6 +21,8 @@ namespace ludum_dare_49
             { "Logo", new Rectangle(0, 0, 16, 16) },
             { "Player1", new Rectangle(16 * 3, 16 * 1, 16, 16) },
             { "Player2", new Rectangle(16 * 4, 16 * 1, 16, 16) },
+            { "Player1b", new Rectangle(16 * 6, 16 * 1, 16, 16) },
+            { "Player2b", new Rectangle(16 * 7, 16 * 1, 16, 16) },
             { "GnomeThing", new Rectangle(16 * 3, 16 * 0, 16, 16) },
             { "TinyUndead", new Rectangle(16 * 4, 16 * 0, 16, 16) },
             { "Ground1", new Rectangle(16 * 0, 16 * 1, 16, 16) },
@@ -69,6 +71,11 @@ namespace ludum_dare_49
         public void DrawImage(string imageName, Vector2 position) {
             var rect = TextureMap[imageName];
             Raylib.DrawTextureRec(atlas, rect, position * scaling, Color.WHITE);
+        }
+
+        public void DrawImage(string imageName, Vector2 position, Color tint) {
+            var rect = TextureMap[imageName];
+            Raylib.DrawTextureRec(atlas, rect, position * scaling, tint);
         }
     }
 }

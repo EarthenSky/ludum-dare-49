@@ -55,7 +55,7 @@ namespace ludum_dare_49
 
             GameStart();
 
-            while (!Raylib.WindowShouldClose() && !level.GameComplete())
+            while (!level.GameComplete())
             {
                 Update(Raylib.GetFrameTime());
 
@@ -65,6 +65,12 @@ namespace ludum_dare_49
                 Draw();
 
                 Raylib.EndDrawing();
+
+                if (Raylib.WindowShouldClose())
+                {
+                    Raylib.CloseWindow();
+                    return;
+                }
             }
 
             ending = new Ending(level.didWin);
@@ -104,8 +110,6 @@ namespace ludum_dare_49
             level.Draw();
             player.Draw();
             arrows.Draw();
-            
-            //Raylib.DrawText("Hello, world!", 12, 12, 20, Color.BLACK);
         }
     }
 }
