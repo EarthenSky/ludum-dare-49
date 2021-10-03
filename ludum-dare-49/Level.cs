@@ -26,6 +26,10 @@ namespace ludum_dare_49
         private Queue<IEnemy> spawnQueue = new Queue<IEnemy>();
         private float queueTimer = 0f;
 
+        public bool gameComplete = false;
+        private float gameCompleteTimer = 0f;
+        public bool didWin = false;
+
         public Level() {
             for (int y = 0; y < height; y++) {
                 for (int x = 0; x < width; x++) {
@@ -58,6 +62,10 @@ namespace ludum_dare_49
             terrain[width - 1 + (height - 1) * width] = "WallInvisible";
         }
 
+        public bool GameComplete() {
+            return gameComplete && gameCompleteTimer > 1f;
+        }
+
         public bool CanStep(Vector2 pos, Vector2 transform) {
             // check for left & right walls
             if ((pos.X / 16 == 0 && transform.X / 16 < 0) ||
@@ -82,6 +90,9 @@ namespace ludum_dare_49
                 Vector2 enemyPos = enemy.GetPosition();
                 int x = (int)Math.Round(enemyPos.X / 16f);
                 int y = (int)Math.Round(enemyPos.Y / 16f);
+
+                //Console.WriteLine("   x: " + x.ToString() + " y: " + y.ToString());
+                //Console.WriteLine("vs x: " + (position.X / 16).ToString() + " y: " + (position.Y / 16).ToString());
 
                 if (position.X / 16 == x && position.Y / 16 == y)
                     return enemy;
@@ -109,7 +120,8 @@ namespace ludum_dare_49
         }
 
         private void WinGame() {
-
+            gameComplete = true;
+            didWin = true;
         }
 
         // make the first few enemies "random" so it doesn't feel the same.
@@ -204,10 +216,15 @@ namespace ludum_dare_49
                 if (enemies.Count < 16 && spawnQueue.Count != 0) {
                     IEnemy e = spawnQueue.Dequeue();
                     enemies.Add(e);
-                    Console.WriteLine(e.GetPosition().ToString());
                     queueTimer = 0; // fully resets after each spawn
                 }
             }
+
+            if (gameComplete) {
+                gameCompleteTimer += dt;
+            }
+
+            // Process Enemies:
 
             foreach (var enemy in enemies) {
                 enemy.Update(dt);

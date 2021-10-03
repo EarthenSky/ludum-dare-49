@@ -40,16 +40,23 @@ namespace ludum_dare_49
         public void TakeDamage() {
             hp -= 1;
             // do red particles when taking damage
+
+            if (hp == 0) {
+                Program.level.gameComplete = true;
+                Program.level.didWin = false;
+            }
         }
 
         private void PerformDash(Vector2 transform) {
+            Vector2 currentLocation = pos;
             for (int i = 1; i <= 3; i++) {
-                Vector2 currentLocation = pos + transform * i;
+                currentLocation += transform;
                 var enemy = Program.level.GetEnemy(currentLocation);
                 if (enemy == null) continue;
 
                 enemy.RecieveAttack();
             }
+
         }
 
         // Take damage if there is an enemy there
@@ -81,7 +88,7 @@ namespace ludum_dare_49
                     dashSize = 3;
                 }
                 
-                PerformDash(pos + transform * dashSize);
+                PerformDash(transform);
             }
             else
             {

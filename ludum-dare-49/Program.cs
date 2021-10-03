@@ -10,8 +10,9 @@ namespace ludum_dare_49
         public static Renderer renderer;
 
         public static Intro intro;
+        public static Ending ending;
 
-        public static Level level ;
+        public static Level level;
         public static Player player;
         public static Arrows arrows ;
 
@@ -54,7 +55,7 @@ namespace ludum_dare_49
 
             GameStart();
 
-            while (!Raylib.WindowShouldClose())
+            while (!Raylib.WindowShouldClose() && !level.GameComplete())
             {
                 Update(Raylib.GetFrameTime());
 
@@ -64,6 +65,26 @@ namespace ludum_dare_49
                 Draw();
 
                 Raylib.EndDrawing();
+            }
+
+            ending = new Ending(level.didWin);
+
+            while (!Raylib.IsKeyPressed(KeyboardKey.KEY_ENTER) && !Raylib.IsKeyPressed(KeyboardKey.KEY_SPACE))
+            {
+                ending.Update(Raylib.GetFrameTime());
+
+                Raylib.BeginDrawing();
+                Raylib.ClearBackground(Color.DARKGRAY);
+
+                ending.Draw();
+
+                Raylib.EndDrawing();
+
+                if (Raylib.WindowShouldClose())
+                {
+                    Raylib.CloseWindow();
+                    return;
+                }
             }
 
             Raylib.CloseWindow();
