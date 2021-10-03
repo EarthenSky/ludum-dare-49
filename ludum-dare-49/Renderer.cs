@@ -12,8 +12,6 @@ namespace ludum_dare_49
 {
     class Renderer
     {
-        private static Vector2 IMG_16 = new Vector2(16, 16);
-
         private Texture2D atlas;
         private Image imageAtlas;
 
@@ -23,6 +21,8 @@ namespace ludum_dare_49
             { "Logo", new Rectangle(0, 0, 16, 16) },
             { "Player1", new Rectangle(16 * 3, 16 * 1, 16, 16) },
             { "Player2", new Rectangle(16 * 4, 16 * 1, 16, 16) },
+            { "GnomeThing", new Rectangle(16 * 3, 16 * 0, 16, 16) },
+            { "TinyUndead", new Rectangle(16 * 4, 16 * 0, 16, 16) },
             { "Ground1", new Rectangle(16 * 0, 16 * 1, 16, 16) },
             { "Ground2", new Rectangle(16 * 1, 16 * 1, 16, 16) },
             { "Ground3", new Rectangle(16 * 2, 16 * 1, 16, 16) },
@@ -52,7 +52,7 @@ namespace ludum_dare_49
             Raylib.ImageResizeNN(ref imageAtlas, imageAtlas.width * scaling, imageAtlas.height * scaling);
 
             // This is a GPU atlas... hopefully this doesn't cause problems?
-            atlas = Raylib.LoadTextureFromImage(imageAtlas);
+            atlas = Raylib.LoadTextureFromImage(imageAtlas);  // accessing bad memory...?
 
             foreach (var pair in TextureMap) {
                 var val = pair.Value;

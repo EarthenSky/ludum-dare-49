@@ -7,18 +7,33 @@ namespace ludum_dare_49
 {
     static class Program
     {
-        public static Renderer renderer = new Renderer(4);
+        public static Renderer renderer;
 
-        public static Intro intro = new Intro();
+        public static Intro intro;
 
-        public static Level level = new Level();
-        public static Player player = new Player();
-        public static Arrows arrows = new Arrows();
+        public static Level level ;
+        public static Player player;
+        public static Arrows arrows ;
+
+        public static Random rand;
 
         public static void Main()
         {
             Raylib.InitWindow(640, 640, "Moss Moon");
             Raylib.SetTargetFPS(60);
+            rand = new Random(Guid.NewGuid().GetHashCode());
+
+            // --------------------------------------------------- //
+            // Creating Objects:
+            renderer = new Renderer(4);
+
+            intro = new Intro();
+
+            level = new Level();
+            player = new Player();
+            arrows = new Arrows();
+
+            // --------------------------------------------------- //
 
             while (!intro.IsDone() && !Raylib.IsKeyPressed(KeyboardKey.KEY_ENTER) && !Raylib.IsKeyPressed(KeyboardKey.KEY_SPACE))
             {

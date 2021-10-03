@@ -37,14 +37,28 @@ namespace ludum_dare_49
 
         }
 
-        public void PerformDash(Vector2 targetLocation) {
-            for (int i = 0; i < 3; i++) {
-                Vector2 currentLocation = Vector2.Zero;
+        public void TakeDamage() {
+            hp -= 1;
+            // do red particles when taking damage
+        }
+
+        private void PerformDash(Vector2 transform) {
+            for (int i = 1; i <= 3; i++) {
+                Vector2 currentLocation = pos + transform * i;
                 var enemy = Program.level.GetEnemy(currentLocation);
                 if (enemy == null) continue;
 
                 enemy.RecieveAttack();
             }
+        }
+
+        // Take damage if there is an enemy there
+        private void StepInto(Vector2 targetLocation) {
+            var enemy = Program.level.GetEnemy(targetLocation);
+            if (enemy == null) return;
+
+            enemy.RecieveAttack();
+            this.TakeDamage();
         }
 
         private void ProcessKey(string key, Vector2 transform) {
@@ -72,6 +86,7 @@ namespace ludum_dare_49
             else
             {
                 stopMovement = !Program.level.CanStep(pos, transform); // technically we can replace stopMovement with dashSize.
+                if (!stopMovement) StepInto(pos + transform);
             }
         }
 

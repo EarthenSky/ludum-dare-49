@@ -64,10 +64,10 @@ namespace ludum_dare_49
                     case 3:
                         text2TargetColor = Color.WHITE;
                         break;
-                    case 7:
+                    case 5:
                         // TODO: fade to black
                         break;
-                    case 8:
+                    case 6:
                         isDone = true;
                         break;
                     default:
@@ -78,8 +78,8 @@ namespace ludum_dare_49
             }
 
             // moves the majin to it's target, always
-            majinX = (majinX + majinTargetX) / 2;
-            majinY = (majinY + majinTargetY) / 2;
+            majinX = (majinX*6 + majinTargetX) / 7;
+            majinY = (majinY*6 + majinTargetY) / 7;
 
             text1Color = new Color(
                 (text1Color.r*2 + text1TargetColor.r) / 3,
