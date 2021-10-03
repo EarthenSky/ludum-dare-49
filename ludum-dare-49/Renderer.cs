@@ -22,6 +22,7 @@ namespace ludum_dare_49
         private Dictionary<string, Rectangle> TextureMap = new Dictionary<string, Rectangle> {
             { "Logo", new Rectangle(0, 0, 16, 16) },
             { "Player1", new Rectangle(16 * 3, 16 * 1, 16, 16) },
+            { "Player1", new Rectangle(16 * 4, 16 * 1, 16, 16) },
             { "Ground1", new Rectangle(16 * 0, 16 * 1, 16, 16) },
             { "Ground2", new Rectangle(16 * 1, 16 * 1, 16, 16) },
             { "Ground3", new Rectangle(16 * 2, 16 * 1, 16, 16) },
