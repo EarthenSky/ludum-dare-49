@@ -128,9 +128,12 @@ namespace ludum_dare_49
                 // TODO: spawn enemy 2 away from the player & only at 2 away max from edges.
 
                 var index = x + y * width;
-                // at least 2 blocks away (true circle)
-                if (index > 0 && index < terrain.Count && !HasWall(loc) && GetEnemy(loc) == null && Vector2.Distance(Program.player.pos, loc) > 16 * 2) {
-                    spawnQueue.Enqueue(new GnomeThing(loc)); // space has no wall or enemy, place enemy
+                // at least 3 blocks away (true circle)
+                if (index > 0 && index < terrain.Count && !HasWall(loc) && GetEnemy(loc) == null && Vector2.Distance(Program.player.pos, loc) > 16 * 3) {
+                    if (enemy == "GnomeThing")
+                        spawnQueue.Enqueue(new GnomeThing(loc)); // space has no wall or enemy, (or player) place enemy
+                    else if (enemy == "TinyUndead")
+                        spawnQueue.Enqueue(new GnomeThing(loc)); 
                     return;
                 }
             }
@@ -154,19 +157,82 @@ namespace ludum_dare_49
                 case 1:
                     break;
                 case 2:
-                    SpawnEnemy("GnomeThing"); // rand
-                    break;
                 case 6:
-                    SpawnEnemy("GnomeThing"); // rand
-                    break;
                 case 10:
-                    SpawnEnemy("GnomeThing"); // rand
-                    break;
                 case 11:
-                    SpawnEnemy("GnomeThing"); // rand
+                    SpawnEnemy("GnomeThing");
                     break;
+                case 15:
+                case 17:
+                     SpawnEnemy("TinyUndead");
+                    break;
+                case 19:
+                case 20:
+                case 25:
+                case 30:
+                case 35:
+                case 45:
+                case 60:
+                case 60*2 + 15:
+                case 60*3 + 15:
+                case 60*4 + 15:
+                case 60*5 + 15:
+                case 60*6 + 15:
+                case 60*7 + 15:
+                    if (Program.rand.Next(2) == 0)
+                        SpawnEnemy("GnomeThing");
+                    else
+                        SpawnEnemy("TinyUndead");
+
+                    if (Program.rand.Next(2) == 0)
+                        SpawnEnemy("GnomeThing");
+                    else
+                        SpawnEnemy("TinyUndead");
+                    break;
+                case 60 + 30:
+                case 60*2 + 30:
+                case 60*3 + 30:
+                case 60*4 + 30:
+                case 60*5 + 30:
+                case 60*6 + 30:
+                case 60*7 + 10:
+                    SpawnEnemy("GnomeThing");
+                    SpawnEnemy("GnomeThing");
+                    SpawnEnemy("GnomeThing");
+                    SpawnEnemy("TinyUndead");
+                    SpawnEnemy("TinyUndead");
+                    SpawnEnemy("TinyUndead");
+                    break;
+
                 default:
                     break;
+            }
+
+            // mid waves
+            if (time % 30 == 0)
+            {
+                if (enemies.Count < 5 && spawnQueue.Count < 5)
+                {
+                    if (Program.rand.Next(2) == 0)
+                        SpawnEnemy("GnomeThing");
+                    else
+                        SpawnEnemy("TinyUndead");
+
+                    if (Program.rand.Next(2) == 0)
+                        SpawnEnemy("GnomeThing");
+                    else
+                        SpawnEnemy("TinyUndead");
+
+                    if (Program.rand.Next(2) == 0)
+                        SpawnEnemy("GnomeThing");
+                    else
+                        SpawnEnemy("TinyUndead");
+                }
+            }
+
+            if (time > 60 * 3 && enemies.Count < 10)
+            {
+                SpawnEnemy("GnomeThing");
             }
 
             // spawn extra enemies if there are none.
@@ -185,27 +251,37 @@ namespace ludum_dare_49
                 for (int i = 0; i < 3; i++) {
                     SpawnEnemy("GnomeThing");
                 }
-            } else if (n == 3) {
+                SpawnEnemy("TinyUndead");
+            }
+            else if (n == 3) {
                 for (int i = 0; i < 4; i++) {
                     SpawnEnemy("GnomeThing");
                 }
-            } else if (n == 4) {
-                for (int i = 0; i < 4; i++) {
+                SpawnEnemy("TinyUndead");
+            }
+            else if (n == 4) {
+                for (int i = 0; i < 5; i++) {
                     SpawnEnemy("GnomeThing");
                 }
             } else if (n == 5) {
-                for (int i = 0; i < 5; i++) {
+                for (int i = 0; i < 6; i++) {
                     SpawnEnemy("GnomeThing");
                 }
-            } else if (n == 6) {
-                for (int i = 0; i < 5; i++) {
+                SpawnEnemy("TinyUndead");
+            }
+            else if (n == 6) {
+                for (int i = 0; i < 7; i++) {
                     SpawnEnemy("GnomeThing");
                 }
             } else if (n == 7) {
                 for (int i = 0; i < 6; i++) {
                     SpawnEnemy("GnomeThing");
                 }
-            } 
+                SpawnEnemy("TinyUndead");
+                SpawnEnemy("TinyUndead");
+                SpawnEnemy("TinyUndead");
+                SpawnEnemy("TinyUndead");
+            }
         }
 
         public void Update(float dt) {
@@ -227,10 +303,10 @@ namespace ludum_dare_49
 
             // pop the queue 1 time per second
             queueTimer += dt;
-            float limit = enemies.Count > 8 ? 4f : 1f; // slows spawn rate after 8.
+            float limit = enemies.Count > 12 ? 2f : 1f; // slows spawn rate after 12.
             if (queueTimer > limit) {
-                // We can never have more than 16 enemies on screen.
-                if (enemies.Count < 16 && spawnQueue.Count != 0) {
+                // We can never have more than 32 enemies on screen.
+                if (enemies.Count < 32 && spawnQueue.Count != 0) {
                     IEnemy e = spawnQueue.Dequeue();
                     enemies.Add(e);
                     queueTimer = 0; // fully resets after each spawn

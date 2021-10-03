@@ -36,6 +36,15 @@ namespace ludum_dare_49
 
             // --------------------------------------------------- //
 
+            Raylib.InitAudioDevice();
+
+            Music music = Raylib.LoadMusicStream("spooky.wav");
+            //music.looping = 1;
+            while (!Raylib.IsAudioDeviceReady())
+                continue;
+            
+            Raylib.PlayMusicStream(music);
+
             while (!intro.IsDone() && !Raylib.IsKeyPressed(KeyboardKey.KEY_ENTER) && !Raylib.IsKeyPressed(KeyboardKey.KEY_SPACE))
             {
                 intro.Update(Raylib.GetFrameTime());
@@ -53,7 +62,7 @@ namespace ludum_dare_49
                 }
             }
 
-            GameStart();
+
 
             while (!level.GameComplete())
             {
@@ -71,6 +80,7 @@ namespace ludum_dare_49
                     Raylib.CloseWindow();
                     return;
                 }
+
             }
 
             ending = new Ending(level.didWin);
